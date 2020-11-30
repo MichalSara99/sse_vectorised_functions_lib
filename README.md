@@ -14,5 +14,6 @@ DLL library consisting of vectorised math functions written in Assembly x86 and 
 
 ## Usage
 Include sse_vectorised_functions_lib.dll in your project and include <sse_math_x86_lib.h> header file.
+See repo sse_vectorised_functions_tests, for example.
 
 
