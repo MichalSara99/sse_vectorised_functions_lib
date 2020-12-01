@@ -126,6 +126,14 @@ bool sse_normal_distribution::norm_cdf_sse(float const* in_aligned_16, int n4, f
 bool sse_normal_distribution::norm_cdf_sse(double const* in_aligned_16, int n2, double* out_aligned_16) {
 	return sse_math::norm_cdf_sse_packed(in_aligned_16, n2, out_aligned_16);
 }
+// packed single-precision floating-point normal PDF
+bool sse_normal_distribution::norm_pdf_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::norm_pdf_sse_packed(in_aligned_16, n4, out_aligned_16);
+}
+// packed double-precision floating-point normal PDF
+bool sse_normal_distribution::norm_pdf_sse(double const* in_aligned_16, int n2, double* out_aligned_16) {
+	return sse_math::norm_pdf_sse_packed(in_aligned_16, n2, out_aligned_16);
+}
 // packed single-precision floating-point inverse normal CDF
 bool sse_normal_distribution::norm_inv_cdf_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
 	return sse_math::norm_inv_cdf_sse_packed(in_aligned_16, n4, out_aligned_16);

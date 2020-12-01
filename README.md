@@ -10,6 +10,7 @@ DLL library consisting of vectorised math functions written in Assembly x86 and 
 * add,sub,mul,div,neg,inv (SPFP,DPFP)
 * abs,sqrt (SPFP,DPFP)
 * normal CDF (SPFP,DPFP)
+* normal PDF (SPFP,DPFP)
 * normal inverse CDF (SPFP)
 
 ## Usage
