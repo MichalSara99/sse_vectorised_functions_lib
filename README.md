@@ -13,6 +13,9 @@ DLL library consisting of vectorised math functions written in Assembly x86 and 
 * normal PDF (SPFP,DPFP)
 * normal inverse CDF (SPFP)
 
+** SPFP = single-precision floating-point
+** DPFP = double-precision floating-point
+
 ## Usage
 Include sse_vectorised_functions_lib.dll in your project and include <sse_math_x86_lib.h> header file.
 See repo sse_vectorised_functions_tests, for example.
