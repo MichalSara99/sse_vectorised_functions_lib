@@ -84,6 +84,42 @@ bool sse_basics::sqrt_sse(float const* in_aligned_16, int n4, float* out_aligned
 	return sse_math::sqrt_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
 
+// packed single-precision floating-point minimum value
+bool sse_basics::min_sse(float const* in_aligned_16, int n4, float* out) {
+	return sse_math::min_sse_packed(in_aligned_16, n4, out);
+}
+// packed double-precision floating-point minimum value
+bool sse_basics::min_sse(double const* in_aligned_16, int n2, double* out) {
+	return sse_math::min_sse_packed(in_aligned_16, n2, out);
+}
+
+// packed single-precision floating-point maximum value
+bool sse_basics::max_sse(float const* in_aligned_16, int n4, float* out) {
+	return sse_math::max_sse_packed(in_aligned_16, n4, out);
+}
+// packed double-precision floating-point maximum value
+bool sse_basics::max_sse(double const* in_aligned_16, int n2, double* out) {
+	return sse_math::max_sse_packed(in_aligned_16, n2, out);
+}
+
+// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
+bool sse_basics::mins_sse(float const* x_aligned_16, float const* y_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::mins_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+}
+// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
+bool sse_basics::mins_sse(double const* x_aligned_16, double const* y_aligned_16, int n2, double* out_aligned_16) {
+	return sse_math::mins_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+}
+// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
+bool sse_basics::maxs_sse(float const* x_aligned_16, float const* y_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::maxs_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+}
+// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
+bool sse_basics::maxs_sse(double const* x_aligned_16, double const* y_aligned_16, int n2, double* out_aligned_16) {
+	return sse_math::maxs_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+}
+
+
 /// ================================================ EXPONENTIAL FUNCTIONS ==========================================================
 
 // packed fast double-precision floating-point exp
@@ -102,6 +138,7 @@ bool sse_basics::exp_sse(double const* in_aligned_16, int n2, double* out_aligne
 bool sse_basics::exp_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
 	return sse_math::exp_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
+
 
 /// ================================================ LOGARITHMIC FUNCTIONS ==========================================================
 

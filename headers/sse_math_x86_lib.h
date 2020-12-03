@@ -64,6 +64,23 @@ namespace sse_basics {
 	SSE_MATH_X86_API bool sqrt_sse(double const* in_aligned_16, int n2, double* out_aligned_16);
 	// packed single-precision floating-point negative value
 	SSE_MATH_X86_API bool sqrt_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
+	// packed single-precision floating-point minimum value
+	SSE_MATH_X86_API bool min_sse(float const* in_aligned_16, int n4, float* out);
+	// packed double-precision floating-point minimum value
+	SSE_MATH_X86_API bool min_sse(double const* in_aligned_16, int n2, double* out);
+	// packed single-precision floating-point maximum value
+	SSE_MATH_X86_API bool max_sse(float const* in_aligned_16, int n4, float* out);
+	// packed double-precision floating-point maximum value
+	SSE_MATH_X86_API bool max_sse(double const* in_aligned_16, int n2, double* out);
+	// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
+	SSE_MATH_X86_API bool mins_sse(float const* x_aligned_16, float const* y_aligned_16, int n4, float* out_aligned_16);
+	// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
+	SSE_MATH_X86_API bool mins_sse(double const* x_aligned_16, double const* y_aligned_16, int n2, double* out_aligned_16);
+	// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
+	SSE_MATH_X86_API bool maxs_sse(float const* x_aligned_16, float const* y_aligned_16, int n4, float* out_aligned_16);
+	// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
+	SSE_MATH_X86_API bool maxs_sse(double const* x_aligned_16, double const* y_aligned_16, int n2, double* out_aligned_16);
+
 
 	/// exponential functions:
 
