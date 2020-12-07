@@ -3,6 +3,7 @@ DLL library consisting of vectorised math functions written in Assembly x86 and 
 
 ## List
 * sin, cos (SPFP,DPFP)
+* tan, cot (SPFP)
 * exp_fast (SPFP,DPFP)
 * exp (SPFP,DPFP)
 * natural log (SPFP,DPFP)
