@@ -111,6 +111,10 @@ namespace sse_basics {
 	SSE_MATH_X86_API bool sin_sse(double const* in_aligned_16, int n2, double* out_aligned_16);
 	// packed single-precision floating-point sine
 	SSE_MATH_X86_API bool sin_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
+	// packed single-precision floating-point tangens
+	SSE_MATH_X86_API bool tan_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
+	// packed single-precision floating-point cotangens
+	SSE_MATH_X86_API bool cot_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
 
 }
 

@@ -213,6 +213,14 @@ bool sse_basics::sin_sse(double const* in_aligned_16, int n2, double* out_aligne
 bool sse_basics::sin_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
 	return sse_math::sin_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
+// packed single-precision floating-point tangens
+bool sse_basics::tan_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::tan_sse_packed(in_aligned_16, n4, out_aligned_16);
+}
+// packed single-precision floating-point cotangens
+bool sse_basics::cot_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::cot_sse_packed(in_aligned_16, n4, out_aligned_16);
+}
 
 /// ================================================ UTILITY FUNCTIONS ==========================================================
 

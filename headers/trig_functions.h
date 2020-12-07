@@ -14,6 +14,13 @@ namespace __packed_sse_ {
 	extern "C" bool sin_sse_pd(double const* in_aligned_16, int n2, double* out_aligned_16);
 	// packed single-precision floating-point sine
 	extern "C" bool sin_sse_ps(float const* in_aligned_16, int n4, float* out_aligned_16);
+
+	// packed single-precision floating-point tangens
+	extern "C" bool tan_sse_ps(float const* in_aligned_16, int n4, float* out_aligned_16);
+
+	// packed single-precision floating-point cotangens
+	extern "C" bool cot_sse_ps(float const* in_aligned_16, int n4, float* out_aligned_16);
+
 }
 
 
@@ -35,7 +42,14 @@ namespace sse_math {
 	bool sin_sse_packed(float const* in_aligned_16, int size4, float* out_aligned_16) {
 		return __packed_sse_::sin_sse_ps(in_aligned_16, size4, out_aligned_16);
 	}
-
+	// packed single-precision floating-point tangens
+	bool tan_sse_packed(float const* in_aligned_16, int size4, float* out_aligned_16) {
+		return __packed_sse_::tan_sse_ps(in_aligned_16, size4, out_aligned_16);
+	}
+	// packed single-precision floating-point cotangens
+	bool cot_sse_packed(float const* in_aligned_16, int size4, float* out_aligned_16) {
+		return __packed_sse_::cot_sse_ps(in_aligned_16, size4, out_aligned_16);
+	}
 
 
 
