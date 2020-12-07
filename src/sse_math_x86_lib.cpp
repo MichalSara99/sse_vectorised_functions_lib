@@ -75,13 +75,21 @@ bool sse_basics::abs_sse(double const* in_aligned_16, int n2, double* out_aligne
 bool sse_basics::abs_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
 	return sse_math::abs_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
-// packed double-precision floating-point negative value
+// packed double-precision floating-point square root value
 bool sse_basics::sqrt_sse(double const* in_aligned_16, int n2, double* out_aligned_16) {
 	return sse_math::sqrt_sse_packed(in_aligned_16, n2, out_aligned_16);
 }
-// packed single-precision floating-point negative value
+// packed single-precision floating-point square root value
 bool sse_basics::sqrt_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
 	return sse_math::sqrt_sse_packed(in_aligned_16, n4, out_aligned_16);
+}
+// packed double-precision floating-point square power value
+bool sse_basics::sqrpow_sse(double const* in_aligned_16, int n2, double* out_aligned_16) {
+	return sse_math::sqrpow_sse_packed(in_aligned_16, n2, out_aligned_16);
+}
+// packed single-precision floating-point square power value
+bool sse_basics::sqrpow_sse(float const* in_aligned_16, int n4, float* out_aligned_16) {
+	return sse_math::sqrpow_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
 
 // packed single-precision floating-point minimum value

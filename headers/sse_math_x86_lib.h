@@ -60,10 +60,14 @@ namespace sse_basics {
 	SSE_MATH_X86_API bool abs_sse(double const* in_aligned_16, int n2, double* out_aligned_16);
 	// packed single-precision floating-point absolute value
 	SSE_MATH_X86_API bool abs_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
-	// packed double-precision floating-point negative value
+	// packed double-precision floating-point square root value
 	SSE_MATH_X86_API bool sqrt_sse(double const* in_aligned_16, int n2, double* out_aligned_16);
-	// packed single-precision floating-point negative value
+	// packed single-precision floating-point square root value
 	SSE_MATH_X86_API bool sqrt_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
+	// packed double-precision floating-point square power value
+	SSE_MATH_X86_API bool sqrpow_sse(double const* in_aligned_16, int n2, double* out_aligned_16);
+	// packed single-precision floating-point square power value
+	SSE_MATH_X86_API bool sqrpow_sse(float const* in_aligned_16, int n4, float* out_aligned_16);
 	// packed single-precision floating-point minimum value
 	SSE_MATH_X86_API bool min_sse(float const* in_aligned_16, int n4, float* out);
 	// packed double-precision floating-point minimum value
