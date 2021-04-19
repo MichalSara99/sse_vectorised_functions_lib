@@ -14,6 +14,9 @@
     <Filter Include="asm_x86">
       <UniqueIdentifier>{505b1ba3-9046-44d8-9d9a-34bf5857ea58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="asm_x86_incs">
+      <UniqueIdentifier>{b61f8cf6-2a72-4b62-8b19-817a1297bffb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="asm_x86\basic_functions_.asm">
@@ -40,7 +43,7 @@
     <MASM Include="asm_x86\sincos_functions_.asm">
       <Filter>asm_x86</Filter>
     </MASM>
-    <MASM Include="tancot_functions_.asm">
+    <MASM Include="asm_x86\tancot_functions_.asm">
       <Filter>asm_x86</Filter>
     </MASM>
   </ItemGroup>
@@ -98,5 +101,10 @@
     <ClCompile Include="src\sse_math_x86_lib.cpp">
       <Filter>src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asm_x86_incs\basic_functions.inc">
+      <Filter>asm_x86_incs</Filter>
+    </None>
   </ItemGroup>
 </Project>
