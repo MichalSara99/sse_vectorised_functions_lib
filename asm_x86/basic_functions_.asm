@@ -253,214 +253,70 @@ mins_sse_pd						proc uses ebx esi,
 				done:			ret
 mins_sse_pd						endp
 
-;;			extern "C" bool min_sse_ps(float const* x, int n, float* out);
-min_sse_ps						proc
-								push ebp
-								mov ebp,esp
-
-								xor eax,eax
-
-								mov ecx,[ebp + 12]
-								cmp ecx,4
-								jl Done
-
-								mov edx,[ebp + 8]
-								test edx,0fh
-								jnz Done
-
-								and ecx,0fffffffeh
-
-								movaps xmm7,xmmword ptr [edx]
-								minps xmm7,xmm7
-								add edx,16
-								sub ecx,4
-								jz Final
-
-					@@:			movaps xmm0,xmmword ptr [edx]
-								minps xmm7,xmm0
-								add edx,16
-								sub ecx,4
-								jnz @B
-
-				Final:			movhlps xmm6,xmm7
-								minps xmm7,xmm6
-								movaps xmm6,xmm7
-								shufps xmm6,xmm6,00000001b
-								minss xmm7,xmm6
-								mov edx,[ebp + 16]
-								movss real4 ptr [edx],xmm7
-
-								mov eax,1
-
-				Done:			mov esp,ebp
-								pop ebp
-								ret
-min_sse_ps						endp
-
-;;			extern "C" bool min_sse_pd(double const* x, int n, double* out);
-min_sse_pd						proc
-								push ebp
-								mov ebp,esp
-
-								xor eax,eax
-
-								mov ecx,[ebp + 12]
-								cmp ecx,2
-								jl Done
-
-								mov edx,[ebp + 8]
-								test edx,0fh
-								jnz Done
-
-								and ecx,0fffffffeh
-
-								movapd xmm7,xmmword ptr [edx]
-								minpd xmm7,xmm7
-								add edx,16
-								sub ecx,2
-								jz Final
-
-					@@:			movapd xmm0,xmmword ptr [edx]
-								minpd xmm7,xmm0
-								add edx,16
-								sub ecx,2
-								jnz @B
-
-				Final:			movapd xmm6,xmm7
-								shufpd xmm6,xmm6,00000001b
-								minsd xmm7,xmm6
-								mov edx,[ebp + 16]
-								movsd real8 ptr [edx],xmm7
-
-								mov eax,1
-
-				Done:			mov esp,ebp
-								pop ebp
-								ret
-min_sse_pd						endp
-
-;;			extern "C" bool max_sse_ps(float const* x, int n, float* out);
-max_sse_ps						proc
-								push ebp
-								mov ebp,esp
-
-								xor eax,eax
-
-								mov ecx,[ebp + 12]
-								cmp ecx,4
-								jl Done
-
-								mov edx,[ebp + 8]
-								test edx,0fh
-								jnz Done
-
-								and ecx,0fffffffeh
-
-								movaps xmm7,xmmword ptr [edx]
-								maxps xmm7,xmm7
-								add edx,16
-								sub ecx,4
-								jz Final
-
-					@@:			movaps xmm0,xmmword ptr [edx]
-								maxps xmm7,xmm0
-								add edx,16
-								sub ecx,4
-								jnz @B
-
-				Final:			movhlps xmm6,xmm7
-								maxps xmm7,xmm6
-								movaps xmm6,xmm7
-								shufps xmm6,xmm6,00000001b
-								maxss xmm7,xmm6
-								mov edx,[ebp + 16]
-								movss real4 ptr [edx],xmm7
-
-								mov eax,1
-
-				Done:			mov esp,ebp
-								pop ebp
-								ret
-max_sse_ps						endp
-
-;;			extern "C" bool max_sse_pd(double const* x, int n, double* out);
-max_sse_pd						proc
-								push ebp
-								mov ebp,esp
-
-								xor eax,eax
-
-								mov ecx,[ebp + 12]
-								cmp ecx,2
-								jl Done
-
-								mov edx,[ebp + 8]
-								test edx,0fh
-								jnz Done
-
-								and ecx,0fffffffeh
-
-								movapd xmm7,xmmword ptr [edx]
-								maxpd xmm7,xmm7
-								add edx,16
-								sub ecx,2
-								jz Final
-
-					@@:			movapd xmm0,xmmword ptr [edx]
-								maxpd xmm7,xmm0
-								add edx,16
-								sub ecx,2
-								jnz @B
-
-				Final:			movapd xmm6,xmm7
-								shufpd xmm6,xmm6,00000001b
-								maxsd xmm7,xmm6
-								mov edx,[ebp + 16]
-								movsd real8 ptr [edx],xmm7
-
-								mov eax,1
-
-				Done:			mov esp,ebp
-								pop ebp
-								ret
-max_sse_pd						endp
 
 ;;			extern "C" bool abs_sse_ps(float const* x, int n, float* out);
-abs_sse_ps						proc
-								push ebp
-								mov ebp,esp
-								push ebx
+abs_sse_ps						proc uses ebx,
+										x_ptr:ptr real4,
+										n_arg:dword,
+										out_ptr:ptr real4
 		
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,4
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
-								and ecx,0fffffffeh
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
 
 					@@:			movaps xmm0,xmmword ptr [ebx]
 								andps xmm0,xmmword ptr [abs_mask_ps]
 								movaps xmmword ptr [edx],xmm0
 								add ebx,16
 								add edx,16
-								sub ecx,4
+								dec ecx
 								jnz @B
 
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
+
+								movaps xmm0,xmmword ptr [ebx]
+								andps xmm0,xmmword ptr [abs_mask_ps]
 								
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+
+				two_left:		insertps xmm1,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								jmp short done
+
+				three_left:		insertps xmm1,xmm0,01000000b
+								insertps xmm2,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								movss real4 ptr [edx + 8],xmm2
+			
+				done:			ret
 abs_sse_ps						endp
 
 ;;			extern "C" bool abs_sse_pd(double const* x, int n, double* out);

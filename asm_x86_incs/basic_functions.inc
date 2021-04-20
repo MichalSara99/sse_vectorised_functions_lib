@@ -32,4 +32,9 @@ mins_sse_pd proto,
 		n_arg:dword,
 		out_ptr:ptr real8
 
+abs_sse_ps proto,
+		x_ptr:ptr real4,
+		n_arg:dword,
+		out_ptr:ptr real4
+
 
