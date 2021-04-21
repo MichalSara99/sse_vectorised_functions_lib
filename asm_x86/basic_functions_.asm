@@ -320,198 +320,267 @@ abs_sse_ps						proc uses ebx,
 abs_sse_ps						endp
 
 ;;			extern "C" bool abs_sse_pd(double const* x, int n, double* out);
-abs_sse_pd						proc
-								push ebp
-								mov ebp,esp
-								push ebx
-		
+abs_sse_pd						proc uses ebx,
+											x_ptr:ptr real8,
+											n_arg:dword,
+											out_ptr:ptr real8		
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,2
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
 								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
 
 					@@:			movapd xmm0,xmmword ptr [ebx]
 								andpd xmm0,xmmword ptr [abs_mask_pd]
 								movapd xmmword ptr [edx],xmm0
 								add ebx,16
 								add edx,16
-								sub ecx,2
+								dec ecx
 								jnz @B
 
-
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
+
+								movsd xmm0,real8 ptr [ebx]
+								andpd xmm0,real8 ptr [abs_mask_pd]
+								movsd real8 ptr [edx],xmm0
 								
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+				done:			ret
 abs_sse_pd						endp
 
 
 ;;			extern "C" bool sqrt_sse_pd(double const* x, int n, double* out);
-sqrt_sse_pd						proc
-								push ebp
-								mov ebp,esp
-								push ebx
+sqrt_sse_pd						proc uses ebx,
+										x_ptr:ptr real8,
+										n_arg:dword,
+										out_ptr:ptr real8
 
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,2
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
 								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
 
 					@@:			movapd xmm0,xmmword ptr [ebx]
 								sqrtpd xmm0,xmm0
 								movapd xmmword ptr [edx],xmm0
-
 								add ebx,16
 								add edx,16
-								sub ecx,2
+								dec ecx
 								jnz @B
 
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
 
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+								movsd xmm0,real8 ptr [ebx]
+								sqrtsd xmm0,xmm0
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
 sqrt_sse_pd						endp
 
 ;;			extern "C" bool sqrt_sse_ps(float const* x, int n, float* out);
-sqrt_sse_ps						proc
-								push ebp
-								mov ebp,esp
-								push ebx
+sqrt_sse_ps						proc uses ebx,
+											x_ptr:ptr real4,
+											n_arg:dword,
+											out_ptr:ptr real4
 
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,4
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
-								and ecx,0fffffffeh
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
 
 					@@:			movaps xmm0,xmmword ptr [ebx]
 								sqrtps xmm0,xmm0
 								movaps xmmword ptr [edx],xmm0
-
 								add ebx,16
 								add edx,16
-								sub ecx,4
+								dec ecx
 								jnz @B
 
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
 
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+								movaps xmm0,xmmword ptr [ebx]
+								sqrtps xmm0,xmm0
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+
+				two_left:		insertps xmm1,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								jmp short done
+
+				three_left:		insertps xmm1,xmm0,01000000b
+								insertps xmm2,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								movss real4 ptr [edx + 8],xmm2
+
+				done:			ret
 sqrt_sse_ps						endp
 
 ;;			extern "C" bool sqrpow_sse_pd(double const* x, int n, double* out);
-sqrpow_sse_pd					proc
-								push ebp
-								mov ebp,esp
-								push ebx
+sqrpow_sse_pd					proc uses ebx,
+										x_ptr:ptr real8,
+										n_arg:dword,
+										out_ptr:ptr real8
 
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,2
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
 								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
 
 					@@:			movapd xmm0,xmmword ptr [ebx]
 								mulpd xmm0,xmm0
 								movapd xmmword ptr [edx],xmm0
-
 								add ebx,16
 								add edx,16
-								sub ecx,2
+								dec ecx
 								jnz @B
 
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
 
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+								movsd xmm0,real8 ptr [ebx]
+								mulsd xmm0,xmm0
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
 sqrpow_sse_pd					endp
 
 ;;			extern "C" bool sqrpow_sse_ps(float const* x, int n, float* out);
-sqrpow_sse_ps					proc
-								push ebp
-								mov ebp,esp
-								push ebx
-
+sqrpow_sse_ps					proc uses ebx,
+											x_ptr:ptr real4,
+											n_arg:dword,
+											out_ptr:ptr real4
 								xor eax,eax
 
-								mov ecx,[ebp + 12]
-								cmp ecx,4
-								jl Done
-
-								mov ebx,[ebp + 8]
+								mov ebx,x_ptr
 								test ebx,0fh
-								jnz Done
+								jnz done
 
-								mov edx,[ebp + 16]
+								mov edx,out_ptr
 								test edx,0fh
-								jnz Done
+								jnz done
 
-								and ecx,0fffffffeh
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
 
 					@@:			movaps xmm0,xmmword ptr [ebx]
 								mulps xmm0,xmm0
 								movaps xmmword ptr [edx],xmm0
-
 								add ebx,16
 								add edx,16
-								sub ecx,4
+								dec ecx
 								jnz @B
 
+								mov ecx,eax
+				too_short:		or ecx,ecx
 								mov eax,1
+								jz done
 
-				Done:			pop ebx
-								mov esp,ebp
-								pop ebp
-								ret
+								movaps xmm0,xmmword ptr [ebx]
+								mulps xmm0,xmm0
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+
+				two_left:		insertps xmm1,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								jmp short done
+
+				three_left:		insertps xmm1,xmm0,01000000b
+								insertps xmm2,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm1
+								movss real4 ptr [edx + 8],xmm2
+
+				done:			ret
 sqrpow_sse_ps					endp
 								end

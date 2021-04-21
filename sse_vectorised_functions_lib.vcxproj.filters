@@ -106,5 +106,11 @@
     <None Include="asm_x86_incs\basic_functions.inc">
       <Filter>asm_x86_incs</Filter>
     </None>
+    <None Include="asm_x86_incs\exp_fast_functions.inc">
+      <Filter>asm_x86_incs</Filter>
+    </None>
+    <None Include="asm_x86_incs\exp_functions.inc">
+      <Filter>asm_x86_incs</Filter>
+    </None>
   </ItemGroup>
 </Project>

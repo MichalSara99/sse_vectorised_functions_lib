@@ -37,4 +37,28 @@ abs_sse_ps proto,
 		n_arg:dword,
 		out_ptr:ptr real4
 
+abs_sse_pd proto,
+		x_ptr:ptr real8,
+		n_arg:dword,
+		out_ptr:ptr real8
+
+sqrt_sse_ps proto,
+		x_ptr:ptr real4,
+		n_arg:dword,
+		out_ptr:ptr real4
+
+sqrt_sse_pd proto,
+		x_ptr:ptr real8,
+		n_arg:dword,
+		out_ptr:ptr real8
+
+sqrpow_sse_ps proto,
+		x_ptr:ptr real4,
+		n_arg:dword,
+		out_ptr:ptr real4
+
+sqrpow_sse_pd proto,
+		x_ptr:ptr real8,
+		n_arg:dword,
+		out_ptr:ptr real8
 
