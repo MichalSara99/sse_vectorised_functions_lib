@@ -201,6 +201,12 @@ bool sse_normal_distribution::norm_inv_cdf_sse(float const *in_aligned_16, int n
     return sse_math::norm_inv_cdf_sse_packed(in_aligned_16, n4, out_aligned_16);
 }
 
+// packed double-precision floating-point inverse normal CDF
+bool sse_normal_distribution::norm_inv_cdf_sse(double const *in_aligned_16, int n4, double *out_aligned_16)
+{
+    return sse_math::norm_inv_cdf_sse_packed(in_aligned_16, n4, out_aligned_16);
+}
+
 /// ================================================ SPECIAL FUNCTIONS
 /// ==========================================================
 

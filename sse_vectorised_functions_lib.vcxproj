@@ -54,6 +54,8 @@
     <None Include="asm_x86_incs\basic_functions.inc" />
     <None Include="asm_x86_incs\exp_fast_functions.inc" />
     <None Include="asm_x86_incs\exp_functions.inc" />
+    <None Include="asm_x86_incs\log_functions.inc" />
+    <None Include="asm_x86_incs\normal_dist_functions.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

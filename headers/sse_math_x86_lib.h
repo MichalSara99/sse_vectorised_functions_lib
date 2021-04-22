@@ -131,6 +131,8 @@ SSE_MATH_X86_API bool norm_pdf_sse(float const *in_aligned_16, int n4, float *ou
 SSE_MATH_X86_API bool norm_pdf_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
 // packed single-precision floating-point inverse normal CDF
 SSE_MATH_X86_API bool norm_inv_cdf_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
+// packed double-precision floating-point inverse normal CDF
+SSE_MATH_X86_API bool norm_inv_cdf_sse(double const *in_aligned_16, int n4, double *out_aligned_16);
 
 } // namespace sse_normal_distribution
 
