@@ -12,7 +12,7 @@ DLL library consisting of vectorised math functions written in Assembly x86 and 
 * abs,sqrt,sqrpow,mins,maxs (SPFP,DPFP)
 * normal CDF (SPFP,DPFP)
 * normal PDF (SPFP,DPFP)
-* normal inverse CDF (SPFP)
+* normal inverse CDF (SPFP,DPFP)
 
 ** SPFP = single-precision floating-point, DPFP = double-precision floating-point
 
