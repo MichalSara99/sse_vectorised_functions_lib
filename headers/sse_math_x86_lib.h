@@ -12,10 +12,9 @@
 #endif // SSE_MATH_X86_EXPORTS
 
 /// <summary>
-///  ==================================================================================================================================
-///  ==================================================== sse_basics
-///  ==================================================================
-///  ==================================================================================================================================
+///  ====================================================================================================
+///  ======================================= sse_basics =================================================
+///  ====================================================================================================
 /// </summary>
 
 namespace sse_basics
@@ -55,44 +54,175 @@ SSE_MATH_X86_API bool inv_sse(float const *in_aligned_16, int n4, float *out_ali
 
 /// basic functions:
 
-// packed double-precision floating-point absolute value
-SSE_MATH_X86_API bool abs_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point absolute value
-SSE_MATH_X86_API bool abs_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point square root value
-SSE_MATH_X86_API bool sqrt_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point square root value
-SSE_MATH_X86_API bool sqrt_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point square power value
-SSE_MATH_X86_API bool sqrpow_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point square power value
-SSE_MATH_X86_API bool sqrpow_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
-SSE_MATH_X86_API bool mins_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
-SSE_MATH_X86_API bool mins_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
-SSE_MATH_X86_API bool maxs_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
-SSE_MATH_X86_API bool maxs_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
+/**
+ * Packed double-precision floating-point absolute value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool abs_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point absolute value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool abs_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point square root value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sqrt_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * packed single-precision floating-point square root value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sqrt_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point square power value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sqrpow_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point square power value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sqrpow_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point minimum values from a pair of allocated aligned memory blocks
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool mins_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point minimum values from a pair of allocated aligned memory blocks
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool mins_sse(double const *x_aligned_16, double const *y_aligned_16, int size,
+                               double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point maximum values from a pair of allocated aligned memory blocks
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool maxs_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point maximum values from a pair of allocated aligned memory blocks
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool maxs_sse(double const *x_aligned_16, double const *y_aligned_16, int size,
+                               double *out_aligned_16);
 
 /// exponential functions:
 
-// packed fast double-precision floating-point exp
-SSE_MATH_X86_API bool exp_fast_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed fast single-precision floating-point exp
-SSE_MATH_X86_API bool exp_fast_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point exp
-SSE_MATH_X86_API bool exp_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed fast single-precision floating-point exp
-SSE_MATH_X86_API bool exp_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
+/**
+ * Packed fast double-precision floating-point exponential function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool exp_fast_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed fast single-precision floating-point exponential function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool exp_fast_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point exponential function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool exp_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point exponential function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool exp_sse(float const *in_aligned_16, int size, float *out_aligned_16);
 
 /// logaritmhmic functions:
 
-// packed fast single-precision floating-point natural log
-SSE_MATH_X86_API bool log_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed fast double-precision floating-point natural log
-SSE_MATH_X86_API bool log_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
+/**
+ * Packed single-precision floating-point natural log function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool log_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point natural log function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool log_sse(double const *in_aligned_16, int size, double *out_aligned_16);
 
 /// trig functions:
 
@@ -112,55 +242,130 @@ SSE_MATH_X86_API bool cot_sse(float const *in_aligned_16, int n4, float *out_ali
 } // namespace sse_basics
 
 /// <summary>
-///  ==================================================================================================================================
-///  ============================================= sse_normal_distribution
-///  ============================================================
-///  ==================================================================================================================================
+///  ====================================================================================================
+///  ============================= sse_normal_distribution ==============================================
+///  ====================================================================================================
 /// </summary>
 
 namespace sse_normal_distribution
 {
 
-// packed single-precision floating-point normal CDF
-SSE_MATH_X86_API bool norm_cdf_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point normal CDF
-SSE_MATH_X86_API bool norm_cdf_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point normal PDF
-SSE_MATH_X86_API bool norm_pdf_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point normal PDF
-SSE_MATH_X86_API bool norm_pdf_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point inverse normal CDF
-SSE_MATH_X86_API bool norm_inv_cdf_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point inverse normal CDF
-SSE_MATH_X86_API bool norm_inv_cdf_sse(double const *in_aligned_16, int n4, double *out_aligned_16);
+/**
+ * Packed single-precision floating-point normal CDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_cdf_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point normal CDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_cdf_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point normal PDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_pdf_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point normal PDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_pdf_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point inverse normal CDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_inv_cdf_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point inverse normal CDF
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool norm_inv_cdf_sse(double const *in_aligned_16, int size, double *out_aligned_16);
 
 } // namespace sse_normal_distribution
 
 /// <summary>
-///  ==================================================================================================================================
-///  ======================================================== sse_specials
-///  ============================================================
-///  ==================================================================================================================================
+///  ====================================================================================================
+///  ======================================== sse_specials ==============================================
+///  ====================================================================================================
 /// </summary>
 
 namespace sse_specials
 {
 
-// packed double-precision floating-point error function
-SSE_MATH_X86_API bool erf_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point error function
-SSE_MATH_X86_API bool erf_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point complementary error function
-SSE_MATH_X86_API bool erfc_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point complementary error function
-SSE_MATH_X86_API bool erfc_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
+/**
+ * Packed double-precision floating-point error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool erf_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool erf_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point complementary error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool erfc_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point complementary error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool erfc_sse(float const *in_aligned_16, int size, float *out_aligned_16);
 } // namespace sse_specials
 
 /// <summary>
-///  ==================================================================================================================================
-///  ==================================================== sse_utilities
-///  ===============================================================
-///  ==================================================================================================================================
+///  ====================================================================================================
+///  ======================================= sse_utilities ==============================================
+///  ====================================================================================================
 /// </summary>
 
 namespace sse_utility
@@ -168,13 +373,39 @@ namespace sse_utility
 
 template <typename Type> Type *aligned_alloc(std::size_t size, std::size_t alignment);
 
-// aligned allocation for single-precision floating point
+/**
+ * Aligned allocation for single-precision floating point
+ *
+ * \param size
+ * \param alignment
+ * \return pointer to allocated aligned single-precision floating point memory block
+ */
 template <> SSE_MATH_X86_API float *aligned_alloc<float>(std::size_t size, std::size_t alignment);
-// aligned allocation for double-precision floating point
+
+/**
+ * Aligned allocation for double-precision floating point
+ *
+ * \param size
+ * \param alignment
+ * \return pointer to allocated aligned double-precision floating point memory
+ * block
+ */
 template <> SSE_MATH_X86_API double *aligned_alloc<double>(std::size_t size, std::size_t alignment);
-// aligned free for single-precision floating point
+
+/**
+ * Aligned free for single-precision floating point memory block
+ *
+ * \param x
+ *
+ */
 SSE_MATH_X86_API void aligned_free(float *x);
-// aligned free for double-precision floating point
+
+/**
+ * Aligned free for double-precision floating point memory block
+ *
+ * \param x
+ *
+ */
 SSE_MATH_X86_API void aligned_free(double *x);
 
 } // namespace sse_utility

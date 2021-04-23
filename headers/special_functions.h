@@ -2,50 +2,76 @@
 #if !defined(_SPECIAL_FUNCTIONS)
 #define _SPECIAL_FUNCTIONS
 
-#include"sse_macros.h"
+#include "sse_macros.h"
 
-namespace __packed_sse_ {
-	// packed double-precision floating-point error function
-	extern "C" bool erf_sse_pd(double const* in_aligned_16, int n2, double* out_aligned_16);
-	// packed single-precision floating-point error function
-	extern "C" bool erf_sse_ps(float const* in_aligned_16, int n4, float* out_aligned_16);
+namespace __packed_sse_
+{
+// Packed double-precision floating-point error function
+extern "C" bool erf_sse_pd(double const *in_aligned_16, int n, double *out_aligned_16);
+// Packed single-precision floating-point error function
+extern "C" bool erf_sse_ps(float const *in_aligned_16, int n, float *out_aligned_16);
 
-	// packed double-precision floating-point complementary error function
-	extern "C" bool erfc_sse_pd(double const* in_aligned_16, int n2, double* out_aligned_16);
-	// packed single-precision floating-point complementary error function
-	extern "C" bool erfc_sse_ps(float const* in_aligned_16, int n4, float* out_aligned_16);
+// Packed double-precision floating-point complementary error function
+extern "C" bool erfc_sse_pd(double const *in_aligned_16, int n, double *out_aligned_16);
+// Packed single-precision floating-point complementary error function
+extern "C" bool erfc_sse_ps(float const *in_aligned_16, int n, float *out_aligned_16);
+} // namespace __packed_sse_
+
+namespace sse_math
+{
+
+/**
+ * Packed double-precision floating-point error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+bool erf_sse_packed(double const *in_aligned_16, int size, double *out_aligned_16)
+{
+    return __packed_sse_::erf_sse_pd(in_aligned_16, size, out_aligned_16);
 }
 
-
-namespace sse_math {
-
-	// packed double-precision floating-point error function
-	bool erf_sse_packed(double const* in_aligned_16, int size2, double* out_aligned_16) {
-		return __packed_sse_::erf_sse_pd(in_aligned_16, size2, out_aligned_16);
-	}
-	// packed single-precision floating-point error function
-	bool erf_sse_packed(float const* in_aligned_16, int size4, float* out_aligned_16) {
-		return __packed_sse_::erf_sse_ps(in_aligned_16, size4, out_aligned_16);
-	}
-	// packed double-precision floating-point complementary error function
-	bool erfc_sse_packed(double const* in_aligned_16, int size2, double* out_aligned_16) {
-		return __packed_sse_::erfc_sse_pd(in_aligned_16, size2, out_aligned_16);
-	}
-	// packed single-precision floating-point complementary error function
-	bool erfc_sse_packed(float const* in_aligned_16, int size4, float* out_aligned_16) {
-		return __packed_sse_::erfc_sse_ps(in_aligned_16, size4, out_aligned_16);
-	}
-
-
-
-
-
-
+/**
+ * Packed single-precision floating-point error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+bool erf_sse_packed(float const *in_aligned_16, int size, float *out_aligned_16)
+{
+    return __packed_sse_::erf_sse_ps(in_aligned_16, size, out_aligned_16);
 }
 
+/**
+ * Packed double-precision floating-point complementary error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+bool erfc_sse_packed(double const *in_aligned_16, int size, double *out_aligned_16)
+{
+    return __packed_sse_::erfc_sse_pd(in_aligned_16, size, out_aligned_16);
+}
 
+/**
+ * Packed single-precision floating-point complementary error function
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+bool erfc_sse_packed(float const *in_aligned_16, int size, float *out_aligned_16)
+{
+    return __packed_sse_::erfc_sse_ps(in_aligned_16, size, out_aligned_16);
+}
 
-
-
+} // namespace sse_math
 
 #endif ///_SPECIAL_FUNCTIONS

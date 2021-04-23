@@ -118,5 +118,8 @@
     <None Include="asm_x86_incs\normal_dist_functions.inc">
       <Filter>asm_x86_incs</Filter>
     </None>
+    <None Include="asm_x86_incs\special_functions.inc">
+      <Filter>asm_x86_incs</Filter>
+    </None>
   </ItemGroup>
 </Project>
