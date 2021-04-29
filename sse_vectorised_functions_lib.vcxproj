@@ -57,6 +57,7 @@
     <None Include="asm_x86_incs\exp_functions.inc" />
     <None Include="asm_x86_incs\log_functions.inc" />
     <None Include="asm_x86_incs\normal_dist_functions.inc" />
+    <None Include="asm_x86_incs\sincos_functions.inc" />
     <None Include="asm_x86_incs\special_functions.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

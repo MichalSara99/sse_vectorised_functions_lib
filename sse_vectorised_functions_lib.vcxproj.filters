@@ -124,5 +124,8 @@
     <None Include="asm_x86_incs\basic_operations.inc">
       <Filter>asm_x86_incs</Filter>
     </None>
+    <None Include="asm_x86_incs\sincos_functions.inc">
+      <Filter>asm_x86_incs</Filter>
+    </None>
   </ItemGroup>
 </Project>

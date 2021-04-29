@@ -13,6 +13,33 @@
 
 /// <summary>
 ///  ====================================================================================================
+///  ======================================= sse_constants ==============================================
+///  ====================================================================================================
+/// </summary>
+
+namespace sse_constants
+{
+
+template <typename Type> const Type pi();
+
+/**
+ * Double-precision floating-point pi value
+ *
+ * \return math constant of PI
+ */
+template <> SSE_MATH_X86_API const double pi();
+
+/**
+ * Single-precision floating-point pi value
+ *
+ * \return math constant of PI
+ */
+template <> SSE_MATH_X86_API const float pi();
+
+} // namespace sse_constants
+
+/// <summary>
+///  ====================================================================================================
 ///  ======================================= sse_basics =================================================
 ///  ====================================================================================================
 /// </summary>
@@ -20,37 +47,135 @@
 namespace sse_basics
 {
 
-/// math constants:
-
-// scalar math constant of pi = 3.1415926535897932384626433
-const SSE_MATH_X86_API double pi();
-
 /// basic operations:
 
-// packed double-precision floating-point multiplication
-SSE_MATH_X86_API bool mul_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point multiplication
-SSE_MATH_X86_API bool mul_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point division
-SSE_MATH_X86_API bool div_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point division
-SSE_MATH_X86_API bool div_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point addition
-SSE_MATH_X86_API bool add_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point addition
-SSE_MATH_X86_API bool add_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point subtraction
-SSE_MATH_X86_API bool sub_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point subtraction
-SSE_MATH_X86_API bool sub_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point negative value
-SSE_MATH_X86_API bool neg_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point negative value
-SSE_MATH_X86_API bool neg_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point inverse(=inverted) value
-SSE_MATH_X86_API bool inv_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point inverse(=inverted) value
-SSE_MATH_X86_API bool inv_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
+/**
+ * Packed double-precision floating-point multiplication
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool mul_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point multiplication
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool mul_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point division
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool div_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point division
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool div_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point addition
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool add_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point addition
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool add_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point subtraction
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sub_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point subtraction
+ *
+ * \param x_aligned_16
+ * \param y_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sub_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point negative value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool neg_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point negative value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool neg_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point inverse(=inverted) value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool inv_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point inverse(=inverted) value
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool inv_sse(float const *in_aligned_16, int size, float *out_aligned_16);
 
 /// basic functions:
 
@@ -226,14 +351,45 @@ SSE_MATH_X86_API bool log_sse(double const *in_aligned_16, int size, double *out
 
 /// trig functions:
 
-// packed double-precision floating-point cosine
-SSE_MATH_X86_API bool cos_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point cosine
-SSE_MATH_X86_API bool cos_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
-// packed double-precision floating-point sine
-SSE_MATH_X86_API bool sin_sse(double const *in_aligned_16, int n2, double *out_aligned_16);
-// packed single-precision floating-point sine
-SSE_MATH_X86_API bool sin_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
+/**
+ * Packed double-precision floating-point cosine
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool cos_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point cosine
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool cos_sse(float const *in_aligned_16, int size, float *out_aligned_16);
+
+/**
+ * Packed double-precision floating-point sine
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sin_sse(double const *in_aligned_16, int size, double *out_aligned_16);
+
+/**
+ * Packed single-precision floating-point sine
+ *
+ * \param in_aligned_16
+ * \param size
+ * \param out_aligned_16
+ * \return boolean indicating success or failure
+ */
+SSE_MATH_X86_API bool sin_sse(float const *in_aligned_16, int size, float *out_aligned_16);
 // packed single-precision floating-point tangens
 SSE_MATH_X86_API bool tan_sse(float const *in_aligned_16, int n4, float *out_aligned_16);
 // packed single-precision floating-point cotangens

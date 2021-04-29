@@ -7,74 +7,75 @@
 using namespace sse_math;
 
 /// ========================== MATH CONSTANTS ===================================
-
-// scalar math constant of pi = 3.1415926535897932384626433
-const double sse_basics::pi()
+template <> const double sse_constants::pi()
 {
-    return sse_constants::pi;
+    return sse_math_constants::pi<double>;
+}
+template <> const float sse_constants::pi()
+{
+    return sse_math_constants::pi<float>;
 }
 
 /// ========================== BASIC OPERATIONS =================================
 
-// packed double-precision floating-point multiplication
-bool sse_basics::mul_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16)
+bool sse_basics::mul_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::mul_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+    return sse_math::mul_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point multiplication
-bool sse_basics::mul_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::mul_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::mul_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+    return sse_math::mul_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed double-precision floating-point division
-bool sse_basics::div_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16)
+
+bool sse_basics::div_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::div_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+    return sse_math::div_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point division
-bool sse_basics::div_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::div_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::div_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+    return sse_math::div_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed double-precision floating-point addition
-bool sse_basics::add_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16)
+
+bool sse_basics::add_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::add_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+    return sse_math::add_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point addition
-bool sse_basics::add_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::add_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::add_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+    return sse_math::add_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed double-precision floating-point subtraction
-bool sse_basics::sub_sse(double const *x_aligned_16, double const *y_aligned_16, int n2, double *out_aligned_16)
+
+bool sse_basics::sub_sse(double const *x_aligned_16, double const *y_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::sub_sse_packed(x_aligned_16, y_aligned_16, n2, out_aligned_16);
+    return sse_math::sub_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point subtraction
-bool sse_basics::sub_sse(float const *x_aligned_16, float const *y_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::sub_sse(float const *x_aligned_16, float const *y_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::sub_sse_packed(x_aligned_16, y_aligned_16, n4, out_aligned_16);
+    return sse_math::sub_sse_packed(x_aligned_16, y_aligned_16, size, out_aligned_16);
 }
-// packed double-precision floating-point negative value
-bool sse_basics::neg_sse(double const *in_aligned_16, int n2, double *out_aligned_16)
+
+bool sse_basics::neg_sse(double const *in_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::neg_sse_packed(in_aligned_16, n2, out_aligned_16);
+    return sse_math::neg_sse_packed(in_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point negative value
-bool sse_basics::neg_sse(float const *in_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::neg_sse(float const *in_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::neg_sse_packed(in_aligned_16, n4, out_aligned_16);
+    return sse_math::neg_sse_packed(in_aligned_16, size, out_aligned_16);
 }
-// packed double-precision floating-point inverse(=inverted) value
-bool sse_basics::inv_sse(double const *in_aligned_16, int n2, double *out_aligned_16)
+
+bool sse_basics::inv_sse(double const *in_aligned_16, int size, double *out_aligned_16)
 {
-    return sse_math::inv_sse_packed(in_aligned_16, n2, out_aligned_16);
+    return sse_math::inv_sse_packed(in_aligned_16, size, out_aligned_16);
 }
-// packed single-precision floating-point inverse(=inverted) value
-bool sse_basics::inv_sse(float const *in_aligned_16, int n4, float *out_aligned_16)
+
+bool sse_basics::inv_sse(float const *in_aligned_16, int size, float *out_aligned_16)
 {
-    return sse_math::inv_sse_packed(in_aligned_16, n4, out_aligned_16);
+    return sse_math::inv_sse_packed(in_aligned_16, size, out_aligned_16);
 }
 
 /// =========================== BASIC FUNCTIONS =================================
