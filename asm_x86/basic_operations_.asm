@@ -1,6 +1,719 @@
 include asm_x86_incs/basic_operations.inc
 
 .code
+
+;;				extern "C" bool mul_br_sse_pd(double const* x, double const y, int n, double* out);
+mul_br_sse_pd					proc uses esi,
+										x_ptr:ptr real8, 
+										y_arg:real8,
+										n_arg:dword,
+										out_ptr:ptr real8
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,y_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7	
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm0,xmmword ptr [esi]
+								mulpd xmm0,xmm6
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm0,xmmword ptr [esi]
+								mulpd xmm0,xmm6
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+mul_br_sse_pd					endp
+
+;;				extern "C" bool mul_br_sse_ps(float const* x, float const y, int n, float* out);
+mul_br_sse_ps					proc uses esi,
+										x_ptr:ptr real4, 
+										y_arg:real4,
+										n_arg:dword,
+										out_ptr:ptr real4
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, y_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm0,xmmword ptr [esi]
+								mulps xmm0,xmm6
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm0,xmmword ptr [esi]
+								mulps xmm0,xmm6
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+mul_br_sse_ps					endp
+
+;;				extern "C" bool div_br_sse_ps(float const* x, float const y, int n, float* out);
+div_br_sse_ps					proc uses esi,
+											x_ptr:ptr real4, 
+											y_arg:real4,
+											n_arg:dword,
+											out_ptr:ptr real4
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, y_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm0,xmmword ptr [esi]
+								divps xmm0,xmm6
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm0,xmmword ptr [esi]
+								divps xmm0,xmm6
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+div_br_sse_ps					endp
+
+;;				extern "C" bool div_br_sse_pd(double const* x, double const y, int n, double* out);
+div_br_sse_pd					proc uses esi,
+										x_ptr:ptr real8, 
+										y_arg:real8,
+										n_arg:dword,
+										out_ptr:ptr real8
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,y_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm0,xmmword ptr [esi]
+								divpd xmm0,xmm6
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm0,xmmword ptr [esi]
+								divpd xmm0,xmm6
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+div_br_sse_pd					endp
+
+
+;;				extern "C" bool div_br_sse_ps(float const x, float const *y, int n, float* out);
+div_br_s_sse_ps					proc uses esi,
+											x_arg:real4, 
+											y_ptr:ptr real4,
+											n_arg:dword,
+											out_ptr:ptr real4
+								
+								xor eax,eax
+
+								mov esi,y_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, x_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm1,xmmword ptr [esi]
+								movaps xmm0,xmm6
+								divps xmm0,xmm1
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm1,xmmword ptr [esi]
+								movaps xmm0,xmm6
+								divps xmm0,xmm1
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+div_br_s_sse_ps					endp
+
+;;				extern "C" bool div_br_sse_pd(double const x, double const *y, int n, double* out);
+div_br_s_sse_pd					proc uses esi,
+										x_arg:real8, 
+										y_ptr:ptr real8,
+										n_arg:dword,
+										out_ptr:ptr real8
+								
+								xor eax,eax
+
+								mov esi,y_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,x_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm1,xmmword ptr [esi]
+								movapd xmm0,xmm6
+								divpd xmm0,xmm1
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm1,xmmword ptr [esi]
+								movapd xmm0,xmm6
+								divpd xmm0,xmm1
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+div_br_s_sse_pd					endp
+
+
+
+;;				extern "C" bool add_br_sse_ps(float const* x, float const y, int n, float* out);
+add_br_sse_ps					proc uses esi,
+										x_ptr:ptr real4, 
+										y_arg:real4,
+										n_arg:dword,
+										out_ptr:ptr real4
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, y_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm0,xmmword ptr [esi]
+								addps xmm0,xmm6
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+				too_short:		or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm0,xmmword ptr [esi]
+								addps xmm0,xmm6
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+add_br_sse_ps					endp
+
+;;				extern "C" bool add_br_sse_pd(double const* x, double const y, int n, double* out);
+add_br_sse_pd					proc uses esi,
+											x_ptr:ptr real8, 
+											y_arg:real8,
+											n_arg:dword,
+											out_ptr:ptr real8
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,y_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm0,xmmword ptr [esi]
+								addpd xmm0,xmm6
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+			too_short:			or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm0,xmmword ptr [esi]
+								addpd xmm0,xmm6
+
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+add_br_sse_pd					endp
+
+;;				extern "C" bool sub_br_sse_ps(float const* x, float const* y, int n, float* out);
+sub_br_sse_ps					proc uses esi,
+										x_ptr:ptr real4, 
+										y_arg:real4,
+										n_arg:dword,
+										out_ptr:ptr real4
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, y_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm0,xmmword ptr [esi]
+								subps xmm0,xmm6
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+			too_short:			or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm0,xmmword ptr [esi]
+								subps xmm0,xmm6
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+sub_br_sse_ps					endp
+
+;;				extern "C" bool sub_br_sse_pd(double const* x, double const y, int n, double* out);
+sub_br_sse_pd					proc uses esi,
+										x_ptr:ptr real8, 
+										y_arg:real8,
+										n_arg:dword,
+										out_ptr:ptr real8
+								
+								xor eax,eax
+
+								mov esi,x_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,y_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm0,xmmword ptr [esi]
+								subpd xmm0,xmm6
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+			too_short:			or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm0,xmmword ptr [esi]
+								subpd xmm0,xmm6
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+sub_br_sse_pd					endp
+
+;;				extern "C" bool sub_br_sse_ps(float const x, float const* y, int n, float* out);
+sub_br_s_sse_ps					proc uses esi,
+										x_arg:real4, 
+										y_ptr:ptr real4,
+										n_arg:dword,
+										out_ptr:ptr real4
+								
+								xor eax,eax
+
+								mov esi,y_ptr
+								test esi,0fh
+								jnz done
+
+								movss xmm7, x_arg
+								vbroadcastss xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,4
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffch
+								sub eax,ecx
+								shr ecx,2
+
+					@@:			movaps xmm1,xmmword ptr [esi]
+								movaps xmm0,xmm6
+								subps xmm0,xmm1
+								movaps xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+			too_short:			or ecx,ecx
+								mov eax,1
+								jz done
+
+								movaps xmm1,xmmword ptr [esi]
+								movaps xmm0,xmm6
+								subps xmm0,xmm1
+
+								cmp ecx,1
+								je short one_left
+								cmp ecx,2
+								je short two_left
+								cmp ecx,3
+								je short three_left
+
+				one_left:		movss real4 ptr [edx],xmm0
+								jmp short done
+				two_left:		insertps xmm2,xmm0,01000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2	
+								jmp short done
+				three_left:		insertps xmm2,xmm0,01000000b
+								insertps xmm4,xmm0,10000000b
+								movss real4 ptr [edx],xmm0
+								movss real4 ptr [edx + 4],xmm2
+								movss real4 ptr [edx + 8],xmm4
+
+				done:			ret
+sub_br_s_sse_ps					endp
+
+;;				extern "C" bool sub_br_sse_pd(double const x, double const *y, int n, double* out);
+sub_br_s_sse_pd					proc uses esi,
+										x_arg:real8, 
+										y_ptr:ptr real8,
+										n_arg:dword,
+										out_ptr:ptr real8
+								
+								xor eax,eax
+
+								mov esi,y_ptr
+								test esi,0fh
+								jnz done
+
+								movsd xmm6,x_arg
+								movsd xmm7,xmm6
+								movlhps xmm6,xmm7
+
+								mov edx,out_ptr
+								test edx,0fh
+								jnz done
+
+								mov ecx,n_arg
+								cmp ecx,2
+								jl too_short
+
+								mov eax,ecx
+								and ecx,0fffffffeh
+								sub eax,ecx
+								shr ecx,1
+
+					@@:			movapd xmm1,xmmword ptr [esi]
+								movapd xmm0,xmm6
+								subpd xmm0,xmm1
+								movapd xmmword ptr [edx],xmm0
+								add esi,16
+								add edx,16
+								dec ecx
+								jnz @B
+
+								mov ecx,eax
+			too_short:			or ecx,ecx
+								mov eax,1
+								jz done
+
+								movapd xmm1,xmmword ptr [esi]
+								movapd xmm0,xmm6
+								subpd xmm0,xmm1
+								movsd real8 ptr [edx],xmm0
+
+				done:			ret
+sub_br_s_sse_pd					endp
+
 ;;				extern "C" bool mul_sse_ps(float const* x, float const* y, int n, float* out);
 mul_sse_ps						proc uses esi edi,
 											x_ptr:ptr real4, 
@@ -247,6 +960,9 @@ div_sse_pd						proc uses esi edi,
 
 				done:			ret
 div_sse_pd						endp
+
+
+
 
 ;;				extern "C" bool add_sse_ps(float const* x, float const* y, int n, float* out);
 add_sse_ps						proc uses esi edi,
